@@ -1,0 +1,15 @@
+{
+  "index": "Introduction",
+  "garage": "Garage V1",
+  "garagev2": "Garage V2",
+  "about": {
+    "title": "About",
+    "type": "page"
+  },
+  "store": {
+    "title": "Tebex",
+    "type": "page",
+    "href": "https://store.kucluck.com",
+    "newWindow": true
+  }
+}
