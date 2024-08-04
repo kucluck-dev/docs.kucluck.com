@@ -56,10 +56,11 @@ const config: DocsThemeConfig = {
   },
   docsRepositoryBase: "https://github.com/lukman-nov/docs.kucluck.com",
   footer: {
-    text: "Kucluck",
+    text: "© 2024 Kucluck",
   },
   head: useHead,
-  primaryHue: {dark: 200, light: 200},
+
+  primaryHue: {dark: 200, light: 500},
   sidebar: {
     defaultMenuCollapseLevel: 1,
   },
