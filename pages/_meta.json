@@ -1,10 +1,19 @@
 {
+  "start": {
+    "title": "Getting Started",
+    "type": "separator"
+  },
   "index": "Introduction",
-  "garage": "Garage V1",
-  "garagev2": "Garage V2",
-  "about": {
-    "title": "About",
-    "type": "page"
+  "guides": "Guides",
+  "resources": {
+    "title": "Paid Resources",
+    "type": "separator"
+  },
+  "youtube": {
+    "title": "Youtube",
+    "type": "page",
+    "href": "https://www.youtube.com/channel/UCCbuILiiNcuJsOb-sLM95oQ",
+    "newWindow": true
   },
   "store": {
     "title": "Tebex",
