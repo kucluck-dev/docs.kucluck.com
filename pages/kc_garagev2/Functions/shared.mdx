@@ -1,0 +1,52 @@
+import { Steps, Tabs, Tab } from "nextra-theme-docs";
+import { Callout } from "nextra/components";
+
+## getGarages
+Use this to get all the garages data
+
+**Usage:** 
+```lua copy
+exports['kc_garagev2']:getGarages()
+```
+- return: `table[]`
+  - You will get all the garages data.
+
+## getImpounds
+Use this to get all the impounds data
+
+**Usage:** 
+```lua copy
+exports['kc_garagev2']:getImpounds()
+```
+- return: `table[]`
+  - You will get all the impounds data.
+
+## getGarageLabel
+Has a function to get the garage label and coords of the garage name
+
+**Usage:** 
+```lua copy
+exports['kc_garagev2']:getGarageLabel(garageName)
+```
+| Code Block  | Value   | Explanation          |
+| :-----      | :----:  | ----:                |
+| garageName  | string  | key name form garage |
+
+- return:
+  - label: `string`
+  - coords: `vector4`
+
+## getImpoundLabel
+Has a function to get the garage label and coords of the garage name
+
+**Usage:** 
+```lua copy
+exports['kc_garagev2']:getImpoundLabel(impoundName)
+```
+| Code Block   | Value   | Explanation           |
+| :-----       | :----:  | ----:                 |
+| impoundName  | string  | key name form impound |
+
+- return:
+  - label: `string`
+  - coords: `vector4`

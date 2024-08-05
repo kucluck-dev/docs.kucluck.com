@@ -1,0 +1,36 @@
+import { Steps, Tabs, Tab } from "nextra-theme-docs";
+import { Callout } from "nextra/components";
+
+## JobsImpound
+Use this to impound a vehicle by a specific job
+
+**Usage:** 
+```lua copy
+exports['kc_garagev2']:JobsImpound(impoundName, vehicle, identifier)
+```
+| Code Block  | Value   | Explanation                     |
+| :-----      | :----:  | ----:                           |
+| impoundName | string  | Your impound code name          |
+| vehicle     | number  | You can use GetVehiclePedIsIn() |
+| identifier  | string  | Player identifier               |
+
+
+**Example:**
+```lua copy
+RegisterCommand('JobsImpound', function()
+  local playerCoords = GetEntityCoords(PlayerPedId())
+  local vehicle = GetClosestVehicle(playerCoords, 5.0)
+  local playerData = ESX.GetPlayerData()
+  exports['kc_garagev2']:JobsImpound('JobsImpound', vehicle, playerData.identifier)
+end)
+```
+
+## isParkingZone
+Check players if they are in a parking zone
+
+**Usage:** 
+```lua copy
+exports['kc_garagev2']:isParkingZone()
+```
+- return:
+  - boolean
