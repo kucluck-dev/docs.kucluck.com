@@ -1,0 +1,57 @@
+import { Steps, Tabs, Tab } from "nextra-theme-docs";
+import { Callout } from "nextra/components";
+
+## Job Impound
+
+**Usage:** 
+```lua
+exports['kc_garage']:JobsImpound(ImpoundName, Vehicle, Identifier)
+```
+| Code Block  | Value   | Explanation                     |
+| :-----      | :----:  | ----:                           |
+| ImpoundName | string  | Your impound code name          |
+| Vehicle     | number  | you can use GetVehiclePedIsIn() |
+| Identifier  | string  | Player identifier               |
+
+
+**Example:**
+```lua copy
+RegisterCommand('JobsImpound', function()
+  local playerCoords = GetEntityCoords(PlayerPedId())
+  local vehicle = GetClosestVehicle(playerCoords, 5.0)
+  local playerData = ESX.GetPlayerData()
+  exports['kc_garage']:JobsImpound('JobsImpound', vehicle, playerData.identifier)
+end)
+```
+
+## Get Parking Zone
+
+**Usage:** 
+
+```lua copy
+exports['kc_garage']:IsParkingZone()
+```
+**Example:**
+
+```lua copy
+RegisterCommand('_rad', function()
+  local parkingZone = exports['kc_garage']:IsParkingZone()
+  if not IsPauseMenuActive() and not inRadialMenu and not IsDown then
+    if parkingZone then
+      Config.MenuItems[6] = {
+        id = 'parkiran',
+        title = 'Parkiran',
+        icon = 'square-parking',
+        type = 'cmd',
+        event = 'parking',
+        shouldClose = true
+      }
+    else
+      Config.MenuItems[6] = nil
+    end
+
+    openRadial(true)
+    SetCursorLocation(0.5, 0.5)
+  end
+end)
+```

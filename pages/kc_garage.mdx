@@ -15,18 +15,428 @@ Advance garages script for your roleplay server
 Follow these steps to use kc_garage
 
 <Steps>
-### Step1: Put in your resouces file
-- Download resouces `kc_garage`
-- Extract file and put `kc_garage` in your resource server files
 
-### Step2:Insert SQL Query
+### Downloaded resources
+- Open your [Cfx.re Keymaster](https://keymaster.fivem.net/)
+- Go to `Granted Assets`
+- Search `Kucluck Garage`
+- And Click Download
 
-- If you have already used `esx_garages`, you can use the old database by replacing `esx-database-add.sql`.
-- If you have already used `qb-garages` you can use the old database by replacing `qb-database-add.sql`.
-- If you want to create a new database you can replace `esx-database-new.sql` for esx or `qb-database-new.sql` for qb-core. **This method can delete all the vehicles the player owns**.
+### Put in your resouces file
+- After download resouces `Kucluck Garage`
+- Extract this file and put `kc_garage` in your resource server files
 
-### Step 3: Conifg.lua Configuration
+### Insert SQL Query
+<Tabs items={["ESX", "QBCore"]}>
+  <Tab>
+    - If you have already used `esx_garages`, you can use the old database by replacing `esx-database-add.sql`.
+      ```sql filename="database/esx-database-add.sql" copy
+      ALTER TABLE `owned_vehicles` ADD COLUMN `shared` LONGTEXT NULL;
+      ALTER TABLE `owned_vehicles` ADD COLUMN `job` LONGTEXT NULL;
+      ALTER TABLE `owned_vehicles` ADD COLUMN `peopleWithKeys` LONGTEXT NULL;
+      ```
+    - If you want to create a new database you can replace `esx-database-new.sql`
+      ```sql filename="database/esx-database-new.sql" copy
+      CREATE TABLE IF NOT EXISTS `owned_vehicles` (
+        `owner` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+        `plate` varchar(12) COLLATE utf8mb4_unicode_ci NOT NULL,
+        `vehicle` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+        `type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'car',
+        `job` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+        `stored` tinyint(1) NOT NULL DEFAULT 0,
+        `parking` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT 'SandyShores',
+        `glovebox` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+        `trunk` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+        `peopleWithKeys` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+        `shared` tinyint(1) NOT NULL DEFAULT 0,
+        PRIMARY KEY (`plate`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      ```
+      <Callout type="warning">
+        <p>This method can delete all the vehicles the player owns.</p>
+      </Callout>
+  </Tab>
+  <Tab>
+    - If you have already used `qb-garages` you can use the old database by replacing `qb-database-add.sql`.
+      ```sql filename="database/qb-database-add.sql" copy
+      ALTER TABLE `player_vehicles` ADD COLUMN `shared` LONGTEXT NULL;
+      ALTER TABLE `player_vehicles` ADD COLUMN `job` LONGTEXT NULL;
+      ALTER TABLE `player_vehicles` ADD COLUMN `peopleWithKeys` LONGTEXT NULL;
+      ```
+    - If you want to create a new database you can replace `qb-database-new.sql`
+      ```sql filename="database/qb-database-new.sql" copy
+      CREATE TABLE IF NOT EXISTS `player_vehicles` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `license` varchar(50) DEFAULT NULL,
+        `citizenid` varchar(50) DEFAULT NULL,
+        `vehicle` varchar(50) DEFAULT NULL,
+        `hash` varchar(50) DEFAULT NULL,
+        `mods` longtext DEFAULT NULL,
+        `plate` varchar(50) NOT NULL,
+        `fakeplate` varchar(50) DEFAULT NULL,
+        `garage` varchar(50) DEFAULT NULL,
+        `fuel` int(11) DEFAULT 100,
+        `engine` float DEFAULT 1000,
+        `body` float DEFAULT 1000,
+        `state` int(11) DEFAULT 1,
+        `depotprice` int(11) NOT NULL DEFAULT 0,
+        `drivingdistance` int(50) DEFAULT NULL,
+        `status` text DEFAULT NULL,
+        `balance` int(11) NOT NULL DEFAULT 0,
+        `paymentamount` int(11) NOT NULL DEFAULT 0,
+        `paymentsleft` int(11) NOT NULL DEFAULT 0,
+        `financetime` int(11) NOT NULL DEFAULT 0,
+        `job` varchar(50) DEFAULT NULL,
+        `peopleWithKeys` varchar(50) DEFAULT NULL,
+        `shared` int(11) DEFAULT 1,
+        PRIMARY KEY (`id`),
+        KEY `plate` (`plate`),
+        KEY `citizenid` (`citizenid`),
+        KEY `license` (`license`)
+      ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      ```
+      <Callout type="warning">
+        <p>This method can delete all the vehicles the player owns.</p>
+      </Callout>
+  </Tab>
+</Tabs>
 
--
+### Install optional dependencies
+These resources aren't required but provide additional functionality.
+- [ox_target](https://overextended.dev/ox_target)
 
+### Conifg.lua Configuration
+
+<Tabs items={["config.lua", "garages.lua", "impounds.lua"]}>
+  <Tab>
+    You can edit the fields in `shared/config.lua` to the infrastructure you use.
+
+    ```lua filename="shared/config.lua" copy
+    Config = Config or {}
+
+    -- [[ FRAMEWORK ]] --
+    Config.Framework              = 'esx' -- Framework 
+    Config.FrameworkFolder        = 'es_extended' -- Framework folder
+    Config.NewESX                 = true -- if you not use new esx set false
+    Config.NewQb                  = true -- if you not use new qb set false
+
+    Config.Locale                 = 'en' -- locale
+    Config.CheckForUpdates        = true -- check if a new update
+    Config.Debug                  = false -- print debug
+    Config.Notify                 = 'lib' -- 'esx', 'qb', 'lib', 'custom' you can custom notify in mainAPI.lua line 20
+    Config.TextUI                 = 'lib' -- use 'esx' or 'lib'  or 'qb'
+    Config.AccountType            = 'money' -- account type for default qb = 'cash'
+    Config.RadialMenu             = false -- you can use qb or lib radial menu or if not use radial menu set false
+    Config.OxTarget			          = GetResourceState("ox_target") ~= 'missing'
+
+    Config.UseAnim                = true -- use animation if open garages menu
+    Config.AutoTpToVeh            = false -- auto teleport player to vehicles if player spawn vehicle 
+    Config.AutoLockVeh            = false -- auto lock vehilce if vehilce has spawn
+    Config.AutoDelVeh             = true -- auto delete vehicle 
+    Config.DelVehTimer            = 60 -- auto delete vehicle timer to send notif
+    Config.DelVehInSafeZone       = true -- include auto delete vehicle in safe zone
+    Config.SaveVehiclesInterval   = 5 -- auto save vehicles properties in seconds
+    Config.UseKMH                 = true -- set false if you not use KMH
+    Config.CmdDelVeh              = 'asuransi' -- command for delete vehicles in word
+    Config.CmdLockVeh             = 'kunci' -- command for lock vehicles
+    Config.LockKeyVehicle         = 'U' -- keybind for lock vehicles
+    Config.CmdGiveKey             = 'givekey' -- command for give keys
+
+    Config.DeleteVehiclesAt = { -- Automatic clock setting to delete or impound vehicles if there is no player inside. format 24h
+    -- { ['h'] = hh, ['m'] = mm },
+      { ['h'] = 00, ['m'] = 00 },
+      { ['h'] = 03, ['m'] = 00 },
+      { ['h'] = 09, ['m'] = 00 },
+      { ['h'] = 15, ['m'] = 00 },
+    }
+
+    Config.SafeZones = { -- If the vehicle is within the safe zone, it will not be deleted.
+      { ['x'] = -44.155646565, ['y'] = -1100.155646565, ['z'] = 26.267009735108, ['radius'] = 50.0},
+      { ['x'] = -1688.43811035156, ['y'] = -1073.62536621094, ['z'] = 13.1521873474121, ['radius'] = 200.0},
+      { ['x'] = -2195.1352539063, ['y'] = 4288.7290039063, ['z'] = 49.173923492432, ['radius'] = 150.0},
+    }
+
+    Config.DefaultImpound   = { -- default vehicles storage if vehicle out garages
+      ['car'] = 'SandyShores',
+      ['aircraft'] = 'SandyShoresAir'
+    }
+
+    Config.DefaultJobImpound   = { -- storage of the default vehicle if the vehicle is confiscated by officers 
+      ['car'] = 'Samsat',
+      ['aircraft'] = 'SandyShoresAir'
+    }
+
+    Config.GroupAdminList= { -- Admin list for to use Config.CmdVehDelete
+      'group.god',
+      'group.dev',
+      'group.moderator',
+      'group.headadmin',
+      'group.superadmin',
+      'group.admin',
+    }
+
+    Config.Peds = { -- Peds List
+      garage = 'CSB_TrafficWarden',  -- Garages
+      impound = 's_m_y_construct_01', -- Impounds
+      policeImpound = 'IG_ProlSec_02'       -- PoliceImpounds
+    }
+
+    Config.VehicleFee = { -- fees for removing vehicles in garages or impounds, if set to 0 the player does not pay
+      garage = { -- Garage Fee
+        [0] = 0, -- Compacts
+        [1] = 0, -- Sedans
+        [2] = 0, -- SUVs
+        [3] = 0, -- Coupes
+        [4] = 0, -- Muscle
+        [5] = 0, -- Sports Classics
+        [6] = 0, -- Sports
+        [7] = 0, -- Super
+        [8] = 0, -- Motorcycles
+        [9] = 0, -- Off-road
+        [10] = 0, -- Industrial
+        [11] = 0, -- Utility
+        [12] = 0, -- Vans
+        [13] = 0, -- Cylces
+        [14] = 0, -- Boats
+        [15] = 0, -- Helicopters
+        [16] = 0, -- Planes
+        [17] = 0, -- Service
+        [18] = 0, -- Emergency
+        [19] = 0, -- Military
+        [20] = 0, -- Commercial
+        [21] = 0 -- Train 
+      },
+
+      impound = { -- Impound Fee
+        [0] = 15000, -- Compacts
+        [1] = 15000, -- Sedans
+        [2] = 15000, -- SUVs
+        [3] = 15000, -- Coupes
+        [4] = 15000, -- Muscle
+        [5] = 15000, -- Sports Classics
+        [6] = 15000, -- Sports
+        [7] = 15000, -- Super
+        [8] = 10000, -- Motorcycles
+        [9] = 15000, -- Off-road
+        [10] = 15000, -- Industrial
+        [11] = 15000, -- Utility
+        [12] = 15000, -- Vans
+        [13] = 0, -- Cylces
+        [14] = 50000, -- Boats
+        [15] = 50000, -- Helicopters
+        [16] = 50000, -- Planes
+        [17] = 15000, -- Service
+        [18] = 0, -- Emergency
+        [19] = 15000, -- Military
+        [20] = 15000, -- Commercial
+        [21] = 0 -- Train 
+      }
+    }
+
+    Config.Blips = {
+      ['Garages'] = { -- blips for garage
+        car = {
+          Sprite = 357,
+          Colour = 3,
+          Display = 2,
+          Scale = 0.8
+        },
+        aircraft = {
+          Sprite = 359,
+          Colour = 3,
+          Display = 2,
+          Scale = 0.8
+        },
+        boat = {
+          Sprite = 356,
+          Colour = 3,
+          Display = 2,
+          Scale =  0.8
+        }
+      },
+
+      ['Impounds'] = { -- blips for impound
+        car = {
+          Sprite = 477,
+          Colour = 51,
+          Display = 2,
+          Scale = 0.7
+        },
+        aircraft = {
+          Sprite = 359,
+          Colour = 51,
+          Display = 2,
+          Scale = 0.8
+        },
+        boat = {
+          Sprite = 356,
+          Colour = 51,
+          Display = 2,
+          Scale =  0.8
+        }
+      }
+    }
+
+    -- [[ FRAMEWORK ]] --
+
+    Core = nil
+
+    pcall(function()
+      while Core == nil do
+        if Config.Framework == 'esx' then
+          if Config.NewESX then
+            Core = exports[Config.FrameworkFolder]:getSharedObject()
+          else
+            TriggerEvent('esx:getSharedObject', function(obj) Core = obj end)
+          end
+        elseif Config.Framework == 'qb' then
+          if Config.NewQb then
+            Core = exports[Config.FrameworkFolder]:GetCoreObject()
+          else
+            TriggerEvent('QBCore:GetObject', function(obj) Core = obj end)
+          end
+        end
+        Citizen.Wait(10)
+      end 
+    end)
+
+
+    function GroupDigits(value)
+      local left, num, right = string.match(value, '^([^%d]*%d)(%d*)(.-)$')
+      return left .. (num:reverse():gsub('(%d%d%d)', '%1' .. ','):reverse()) .. right
+    end
+    ```
+  </Tab>
+  <Tab>
+    You can add a garages anywhere. Open `shared/garages.lua` to add a new garage
+    - **Public Garages:**
+      ```lua filename="shared/garages.lua" copy 
+        ['Legion'] = { -- Garage key name
+          Label = 'Garkot', -- Garage label name
+          Type = 'car', -- Vehicles Type
+          Blip = true, -- Show blip ?
+          Players = false, -- Only selected players can access || prams: boolean or table
+          Jobs = false, -- Only selected jobs can access || prams: boolean or table
+          Coords = vector4(-282.7397, -888.6456, 31.0806, 73.9637), -- For ped spawn if you use peds
+          SpawnPoint = {
+            vector4(-285.6491, -888.0939, 31.0806, 166.4453), -- Spawn point 1
+            vector4(-289.2811, -887.3295, 31.0806, 169.8648), -- Spawn point 2
+            vector4(-292.9691, -886.3055, 31.0806, 168.2578), -- Spawn point 3
+            vector4(-296.4071, -885.5869, 31.0806, 167.0156), -- Spawn point 4
+            vector4(-300.0922, -884.8438, 31.0806, 167.7881), -- Spawn point 5
+            vector4(-303.7151, -883.9635, 31.0806, 165.1761), -- Spawn point 6
+          },
+          DeletePoint = {
+            Pos = vector3(-293.78, -886.32, 30.18),  -- Coords delete point zone
+            Size = vector3(20, 6, 5), -- Size box zone
+            Rotation = 348 -- Rotation zone
+          }
+        }
+      ```
+    - **Private Garages:** 
+      ```lua filename="shared/garages.lua" copy
+        ['HachiGarage'] = { -- Garage key name
+          Label = 'Hachi Garage', -- Garage label name
+          Type = 'car', -- Vehicles Type
+          Blip = false, -- Show blip ?
+          Players = { -- Only selected players can access || prams: boolean or table
+            'steam:xxxxxxxxxxxx',
+          },
+          Jobs = false, -- Only selected jobs can access || prams: boolean or table
+          Coords = vector4(-100.3831, 819.2451, 235.7249, 7.1012),  -- For ped spawn if you use peds
+          SpawnPoint = {
+            vector4(-104.9789, 824.1717, 235.7252, 9.1065),  -- Spawn point 1
+          },
+          DeletePoint = {
+            Pos = vector3(-104.98, 824.17, 235.73),  -- Coords delete point zone
+            Size = vector3(10, 10, 5),  -- Size box zone
+            Rotation = 15 -- Rotation zone
+          }
+        },
+      ```
+    - **Jobs Garages:** 
+      ```lua filename="shared/garages.lua" copy
+        ['HospitalAir'] = {  -- Garage key name
+          Label = 'Rumah Sakit Air', -- Garage label name
+          Type = 'aircraft',  -- Vehicles Type
+          Blip = false,  -- Show blip ?
+          Players = false, -- Only selected players can access || prams: boolean or table
+          Jobs = {  -- Only selected jobs can access || prams: boolean or table
+            'ambulance',
+          },
+          Coords = vector4(-675.1924, 327.1154, 140.1467, 88.0828), -- For ped spawn if you use peds
+          SpawnPoint = {
+            vector4(-686.8148, 326.8840, 140.1467, 179.3648),   -- Spawn point 1
+          },
+          DeletePoint = {
+            Pos = vector3(-687.07, 323.44, 140.15),   -- Coords delete point zone
+            Size = vector3(15, 15, 5),  -- Size box zone
+            Rotation = 0 -- Rotation zone
+          }
+        }
+      ```
+  </Tab>
+  <Tab> 
+  You can add a impounds anywhere. Open `shared/impounds.lua` to add a new impound
+    ```lua filename="shared/impounds.lua" copy
+      ['SandyShores'] = { -- Impound key name
+        Label = 'Asuransi', -- Impound label
+        Type = 'car', -- vehicles type
+        Blip = true, -- show blip ?
+        Jobs = false, -- Only selected jobs can access || prams: boolean or table
+        Coords = vector4(252.6120, 2595.9448, 44.8955, 15.9485), -- Spawn peds coords
+        SpawnPoint = {
+          vector4(258.2920, 2592.3401, 44.6332, 9.6964) -- Spawn vehilce coords
+        }
+      },
+
+      ['SandyShoresAir'] = {
+        Label = 'Asuransi Udara',
+        Type = 'aircraft',
+        Blip = true,
+        Jobs = false,
+        Coords = vector4(1743.8893, 3296.8372, 41.1287, 193.3046),
+        SpawnPoint = {
+          vector4(1739.1770, 3281.5996, 41.0936, 11.3545)
+        }
+      },
+
+      ['Samsat'] = { -- if for jobs keywords should start with the word Jobs
+        Label = 'Samsat',
+        Type = 'car',
+        Blip = true,
+        Jobs = {['police'] = 0},
+        Coords = vector4(409.1168, -1623.0258, 29.2919, 230.4279),
+        SpawnPoint = {
+        vector4(416.9999, -1627.8965, 29.0, 137.3000),
+        vector4(419.6365, -1629.6110, 29.0, 135.3693),
+        }
+      },
+    ```
+  </Tab>
+</Tabs>
+
+### Resource start order
+It's important for your resources to start in a logical order to prevent errors from missing dependencies.
+```bash copy
+start oxmysql   # this should be one of the first resources
+start ox_lib
+start framework # the name of your framework (i.e. ox_core, es_extended, qb-core)
+start ox_target # optional needs
+start kc_garage
+```
 </Steps>
+
+
+## Common Issues
+### NULL Vehicle Label
+To fix NULL vehicle names when selecting a vehicle you need to add code in `vehicle_names.lua` for ex: `AddTextEntry('23rs7', 'AUDI RS7 2023')` the first is `<gameName>` and the second is the vehicle's custom Label. to get `<gameName>` you need to look at the vehicle data in vehicles.meta.
+
+```lua filename="vehicle_names.lua" copy
+CreateThread(function()
+  AddTextEntry('23rs7', "AUDI RS7 2023") -- (<gameName>, Vehicle Label)
+end) 
+```
+
+### Vehicles not Unlocked
+If you experience this, you should remove `qb-vehiclekeys`
