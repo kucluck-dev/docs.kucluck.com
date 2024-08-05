@@ -29,7 +29,7 @@ function useNextSeoProps() {
   const title = /[a-z]/.test(rawTitle) && /[A-Z]/.test(rawTitle) ? rawTitle : "%s";
 
   return {
-    titleTemplate: `${title} - ${rawTitle === category ? "Documentation" : category.replace(/(^\w|\s\w)/g, m => m.toUpperCase())}`,
+    titleTemplate: `${title} - ${rawTitle === category ? "Kucluck Docs" : category.replace(/(^\w|\s\w)/g, m => m.toUpperCase())}`,
   };
 }
 

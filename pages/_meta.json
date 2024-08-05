@@ -5,10 +5,6 @@
   },
   "index": "Introduction",
   "guides": "Guides",
-  "resources": {
-    "title": "Paid Resources",
-    "type": "separator"
-  },
   "youtube": {
     "title": "Youtube",
     "type": "page",
@@ -20,5 +16,9 @@
     "type": "page",
     "href": "https://store.kucluck.com",
     "newWindow": true
+  },
+  "resources": {
+    "title": "Paid Resources",
+    "type": "separator"
   }
 }
