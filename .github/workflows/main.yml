@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to docs.kucluck.com Pages
 
 on:
   push:
@@ -24,13 +24,15 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        
       - name: Build website
         run: pnpm build
 
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server:  ${{ secrets.FTP_SERVER }}
+          server: 203.175.9.157
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./out/
+          server-dir: ./public_html/docs.kucluck.com/build/
