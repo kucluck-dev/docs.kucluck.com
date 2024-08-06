@@ -49,12 +49,12 @@ const config: DocsThemeConfig = {
     </div>
   ),
   project: {
-    link: 'https://github.com/lukman-nov/docs.kucluck.com',
+    link: 'https://github.com/kucluck-dev/docs.kucluck.com',
   },
   chat: {
     link: 'https://discord.gg/BuACxn4XUw',
   },
-  docsRepositoryBase: 'https://github.com/lukman-nov/docs.kucluck.com',
+  docsRepositoryBase: 'https://github.com/kucluck-dev/docs.kucluck.com',
   footer: {
     text: '© 2024 Kucluck',
   },
