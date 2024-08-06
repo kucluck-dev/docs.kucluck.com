@@ -1,12 +1,12 @@
-import React from "react";
-import {DocsThemeConfig, useConfig} from "nextra-theme-docs";
-import {useRouter} from "next/router";
+import React from 'react';
+import { DocsThemeConfig, useConfig } from 'nextra-theme-docs';
+import { useRouter } from 'next/router';
 
 function useHead() {
-  const {asPath} = useRouter();
-  const {frontMatter, title} = useConfig();
+  const { asPath } = useRouter();
+  const { frontMatter, title } = useConfig();
   const url = `https://docs.kucluck.com${asPath}`;
-  const description = frontMatter.description || "Documentation for Kucluck resources for FiveM server";
+  const description = frontMatter.description || 'Documentation for Kucluck resources for FiveM server';
 
   return (
     <>
@@ -22,14 +22,14 @@ function useHead() {
 }
 
 function useNextSeoProps() {
-  const {asPath} = useRouter();
-  const arr = asPath.replace(/[-_]/g, " ").split("/");
-  const category = (arr[1][0] !== "#" && arr[1]) || "Kucluck";
+  const { asPath } = useRouter();
+  const arr = asPath.replace(/[-_]/g, ' ').split('/');
+  const category = (arr[1][0] !== '#' && arr[1]) || 'Kucluck';
   const rawTitle = arr[arr.length - 1];
-  const title = /[a-z]/.test(rawTitle) && /[A-Z]/.test(rawTitle) ? rawTitle : "%s";
+  const title = /[a-z]/.test(rawTitle) && /[A-Z]/.test(rawTitle) ? rawTitle : '%s';
 
   return {
-    titleTemplate: `${title} - ${rawTitle === category ? "Kucluck Docs" : category.replace(/(^\w|\s\w)/g, m => m.toUpperCase())}`,
+    titleTemplate: `${title} - ${rawTitle === category ? 'Kucluck Docs' : category.replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())}`,
   };
 }
 
@@ -38,10 +38,10 @@ const config: DocsThemeConfig = {
   logo: (
     <div
       style={{
-        paddingLeft: "50px",
-        lineHeight: "38px",
+        paddingLeft: '50px',
+        lineHeight: '38px',
         background: "url('https://r2.fivemanage.com/1HmlXP8c0itFbXHi4ACgz/KC.png') no-repeat left",
-        backgroundSize: "38px",
+        backgroundSize: '38px',
         fontWeight: 550,
       }}
     >
@@ -49,18 +49,17 @@ const config: DocsThemeConfig = {
     </div>
   ),
   project: {
-    link: "https://github.com/lukman-nov/docs.kucluck.com",
+    link: 'https://github.com/lukman-nov/docs.kucluck.com',
   },
   chat: {
-    link: "https://discord.gg/BuACxn4XUw",
+    link: 'https://discord.gg/BuACxn4XUw',
   },
-  docsRepositoryBase: "https://github.com/lukman-nov/docs.kucluck.com",
+  docsRepositoryBase: 'https://github.com/lukman-nov/docs.kucluck.com',
   footer: {
-    text: "© 2024 Kucluck",
+    text: '© 2024 Kucluck',
   },
   head: useHead,
 
-  primaryHue: {dark: 200, light: 500},
   sidebar: {
     defaultMenuCollapseLevel: 1,
   },
