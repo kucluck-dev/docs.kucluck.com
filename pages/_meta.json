@@ -5,20 +5,14 @@
   },
   "index": "Introduction",
   "guides": "Guides",
-  "youtube": {
-    "title": "Youtube",
+  "web": {
+    "title": "Kucluck Web ↗",
     "type": "page",
-    "href": "https://www.youtube.com/channel/UCCbuILiiNcuJsOb-sLM95oQ",
-    "newWindow": true
-  },
-  "store": {
-    "title": "Tebex",
-    "type": "page",
-    "href": "https://store.kucluck.com",
+    "href": "https://kucluck.com/",
     "newWindow": true
   },
   "resources": {
-    "title": "Paid Resources",
+    "title": "Resources",
     "type": "separator"
   }
 }

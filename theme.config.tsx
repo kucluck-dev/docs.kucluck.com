@@ -17,6 +17,10 @@ function useHead() {
       <meta name="og:title" content={title} />
       <meta name="og:description" content={description} />
       <meta name="og:url" content={url} />
+      <meta name="generator" content="Kucluck" />
+      <meta name="author" content="lukman_nov" />
+      <link rel="author" href="https://github.com/lukman-nov/" />
+      <meta name="keywords" content="Kucluck Official, Fivem Script, Kucluck, kc_weapon, kc_garages, kucluck weapon, kucluck garages, kucluck gta v, kucluck resources, kucluck scripts, kucluck fivem, fivem, kucluck docs, kucluck documentation" />
     </>
   );
 }
@@ -24,17 +28,17 @@ function useHead() {
 function useNextSeoProps() {
   const { asPath } = useRouter();
   const arr = asPath.replace(/[-_]/g, ' ').split('/');
-  const category = (arr[1][0] !== '#' && arr[1]) || 'Kucluck';
+  const category = (arr[1][0] !== '#' && arr[1]) || 'Kucluck Docs';
   const rawTitle = arr[arr.length - 1];
   const title = /[a-z]/.test(rawTitle) && /[A-Z]/.test(rawTitle) ? rawTitle : '%s';
 
   return {
-    titleTemplate: `${title} - ${rawTitle === category ? 'Kucluck Docs' : category.replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())}`,
+    titleTemplate: `${title} - ${rawTitle === category ? 'Kucluck Docs' : category}`,
   };
 }
 
 const config: DocsThemeConfig = {
-  navigation: true,
+  navigation: false,
   logo: (
     <div
       style={{

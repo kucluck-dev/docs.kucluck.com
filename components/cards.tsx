@@ -8,10 +8,6 @@ interface Props {
   img?: string;
 }
 
-// const Cards: React.FC = ({ children, link, label, descriptions, img }: Props) => {
-//   return <div className="cards-container">{children}</div>;
-// };
-
 export function Cards({ children, link, label, descriptions, img }: Props) {
   return <div className="cards-container">{children}</div>;
 }
