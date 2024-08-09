@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to docs.kucluck.com Pages
 
 on:
   push:
@@ -6,10 +6,11 @@ on:
       - main
 
 jobs:
-  deploy:
-    name: Deploy to GitHub Pages
+  FTP-Deploy-Action: 
+    name: FTP-Deploy-Action
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/checkout@v2
 
       - uses: pnpm/action-setup@v2
@@ -23,13 +24,15 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        
       - name: Build website
         run: pnpm build
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          ftp-server: ${{ secrets.FTP_SERVER }}
-          ftp-username: ${{ secrets.FTP_USERNAME }}
-          ftp-password: ${{ secrets.FTP_PASSWORD }}
-          publish_dir: ./out
+          server: 203.175.9.157
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./out/
+          server-dir: ./
