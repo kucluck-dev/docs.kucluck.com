@@ -1,0 +1,26 @@
+---
+title: Server
+---
+
+## getVehicleParkingFromPlate
+
+Has a function to get vehicle parking data
+
+### Usage
+
+```lua title="server.lua"
+exports['kc_garagev2']:getVehicleParkingFromPlate(plate)
+```
+
+| Code Block | Value  |   Explanation |
+| :--------- | :----: | ------------: |
+| plate      | string | Vehicle plate |
+
+- return: `table`
+  - name: `string`,
+  - label: `string`,
+  - dateIn: `number`,
+
+<Callout type="info">
+  <p>`dateIn` is unix number, you must be convert to string</p>
+</Callout>

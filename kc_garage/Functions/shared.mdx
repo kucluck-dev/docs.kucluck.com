@@ -1,0 +1,40 @@
+---
+title: 'Shared'
+---
+
+## Get Garage Name
+
+### Usage
+
+```lua copy
+exports["kc_garage"]:GetGarageName(GaragesKeyName, ImpoundsKeyName)
+```
+
+| Code Block      |       Value       |            Explanation |
+| :-------------- | :---------------: | ---------------------: |
+| GaragesKeyName  | string or boolean |  Your garage code name |
+| ImpoundsKeyName | string or boolean | Your impound code name |
+
+### Example for find garages name
+
+```lua copy
+## ESX Core
+local garageName = exports['kc_garage']:GetGarageName(result[i].parking, false)
+return garageName
+
+## QB Core
+local garageName = exports['kc_garage']:GetGarageName(result[i].garage, false)
+return garageName
+```
+
+### Example for find impounds name
+
+```lua copy
+## ESX Core
+local garageName = exports['kc_garage']:GetGarageName(false, result[i].parking)
+return garageName
+
+## QB Core
+local garageName = exports['kc_garage']:GetGarageName(false, result[i].garage)
+return garageName
+```

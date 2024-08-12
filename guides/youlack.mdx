@@ -1,0 +1,42 @@
+---
+title: You lack the required entitlement
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+<br />
+<center>![](/docs/you-lack.png)</center>
+
+If you experience something like this, there are several things you need to pay attention to.
+
+## Things to be aware of
+
+<Steps>
+<Step>
+### Server Key
+
+Make sure you use the Server Key generated from the account you used during Tebex checkout.
+
+- You can get the server key from [Cfx.re Keymaster](https://keymaster.fivem.net/)
+- A FiveM server can use only 1 server key
+- Once you have your server key, go to your server resources and locate the server.cfg file and paste your server key into it.
+
+<Callout type="info">
+  <p>Example: `sv_licenseKey "cfxk_1TBkUclpzkS2VCUCV2Z8Y_4VqjHz"`</p>
+</Callout>
+
+</Step>
+<Step>
+### OS Time
+
+This can happen because the time on your server is not correct. <br/>To set this up, you can visit https://time.is/ and simply select where the server is currently located.
+For more info about OS Time you can click this video link https://www.youtube.com/watch?v=cLJGy4-sMZg.
+
+</Step>
+<Step>
+### Restart Server
+
+If you think you've done everything. You should restart your server.
+
+</Step>
+</Steps>

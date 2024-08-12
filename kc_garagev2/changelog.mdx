@@ -1,0 +1,124 @@
+---
+title: Change Log
+---
+
+## v1.0.6 (07-08-2024)
+
+- Fix issue Delay after spawn vehicles
+- Fix nil value vehiclesCache
+- Feat Auto close UI when not vehicles data
+- Add formatting code
+- open escrow `/bridge/**/*.lua`
+
+**File Change :**
+
+- `bridge/esx/client.lua`
+- `bridge/qb/client.lua`
+- `bridge/esx/server.lua`
+- `bridge/qb/server.lua`
+- `client/main.lua`
+- `client/deformation.lua`
+- `client/function.lua`
+- `client/mainAPI.lua`
+- `server/main.lua`
+- `server/mainAPI.lua`
+- `server/update.lua`
+- `shared/functions.lua`
+
+## v1.0.5 (30-07-2024)
+
+- Fix Framework not loaded
+- Fix Player IC Name
+- Fix qb-target job
+- Fix Premium Garage always on target
+- Add Missing locale
+
+**File Change :**
+
+- `bridge/esx/client.lua`
+- `bridge/qb/client.lua`
+- `client/main.lua`
+- `client/function.lua`
+- `client/mainAPI.lua`
+- `server/main.lua`
+- `locales/id.lua`
+- `locales/en.lua`
+
+## v1.0.4 (26-06-2024)
+
+- Replacing core callbacks using `lib.callback`
+- Replacing core keybind using `lib.addKeybind`
+- Split some functions into new files
+- Change the Core variable to Framework
+- Add description in some commands
+- Fix Callback QB-Core
+
+**File Change :**
+
+- `client/main.lua`
+- `server/main.lua`
+- `server/mainAPI.lua`
+- `shared/framework.lua`
+- `shared/functions.lua`
+
+## v1.0.3 (08-06-2024)
+
+- Fixed Target qb-core
+- Fixed Toggle qb-core
+- Fixed qb-core GetIcName
+
+**File Change :**
+
+- `bridge/qb/server.lua`
+- `client/main.lua`
+- `client/mainAPI.lua`
+- `client/function.lua`
+- `server/main.lua`
+
+## v1.0.2 (07-06-2024)
+
+- Replacing the jobs impound system.<br/>
+  **You need to add a new column in the database**
+  - ESX: `` ALTER TABLE `owned_vehicles` ADD COLUMN `impounded` LONGTEXT NULL; ``
+  - QB: `` ALTER TABLE `player_vehicles` ADD COLUMN `impounded` LONGTEXT NULL;``
+- Fixed ui button stacked
+- Fixed other players can lock the vehicle
+
+**File Change :**
+
+- `bridge/esx/server.lua`
+- `bridge/qb/server.lua`
+- `client/function.lua`
+- `shared/config.lua`
+- `server/main.lua`
+- `web/index.html`
+- `web/style.css`
+- `web/sctipt.js`
+- `locales/en.js`
+- `locales/id.js`
+
+## v1.0.1 (05-06-2024)
+
+- Fixed fuel not apply to vehicles.
+- Fixed request vehicle keys.
+- Fixed callback not registed.
+- Fixed not checking owned vehicles.
+- Fixed the word on locales id.
+- Added missing locales code.
+- Added custom fuel resouces.
+- Remove unused codes.
+- Changing command 'parking' to 'garages'
+- Changing the favorite label tooltip.
+
+**File Change :**
+
+- `bridge/esx/client.lua`
+- `bridge/qb/client.lua`
+- `client/function.lua`
+- `client/main.lua`
+- `client/mainAPI.lua`
+- `server/main.lua`
+- `shared/config.lua`
+- `locales/en.lua`
+- `locales/id.lua`
+- `web/script.js`

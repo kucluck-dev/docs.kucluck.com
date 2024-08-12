@@ -1,0 +1,55 @@
+---
+title: 'Client'
+---
+
+## Job Impound
+
+### Usage
+
+```lua title="client.lua"
+exports['kc_garage']:JobsImpound(ImpoundName, Vehicle, Identifier)
+```
+
+### Example
+
+```lua title="client.lua"
+RegisterCommand('JobsImpound', function()
+  local playerCoords = GetEntityCoords(PlayerPedId())
+  local vehicle = GetClosestVehicle(playerCoords, 5.0)
+  local playerData = ESX.GetPlayerData()
+  exports['kc_garage']:JobsImpound('JobsImpound', vehicle, playerData.identifier)
+end)
+```
+
+## Get Parking Zone
+
+### Usage
+
+```lua title="client.lua"
+exports['kc_garage']:IsParkingZone()
+```
+
+### Example
+
+```lua title="client.lua"
+RegisterCommand('_rad', function()
+  local parkingZone = exports['kc_garage']:IsParkingZone()
+  if not IsPauseMenuActive() and not inRadialMenu and not IsDown then
+    if parkingZone then
+      Config.MenuItems[6] = {
+        id = 'parkiran',
+        title = 'Parkiran',
+        icon = 'square-parking',
+        type = 'cmd',
+        event = 'parking',
+        shouldClose = true
+      }
+    else
+      Config.MenuItems[6] = nil
+    end
+
+    openRadial(true)
+    SetCursorLocation(0.5, 0.5)
+  end
+end)
+```
